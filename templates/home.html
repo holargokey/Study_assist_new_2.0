@@ -1,0 +1,384 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-MRKQ9T4W');</script>
+    <!-- End Google Tag Manager -->
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <meta name="description"
+        content="StudyAssists Homepage - StudyAssists.com is a learning platform that transforms notes and study materials into interactive quizzes, improving retention and performance. In addition to serving students and educators, the platform supports organizations from corporate companies to training providers by converting internal training content into measurable learning experiences.">
+    <meta name="author" content="StudyAssists">
+    <meta name="keywords"
+        content="AI study assistant, AI note taking app, quiz generator for students, online study tools, study notes organizer, AI exam preparation, studley alternative, smart learning platform, student productivity tools, automatic quiz maker, personalized learning AI, StudyAssists">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title> StudyAssists | Home - An Interactive Learning & Training Platform </title>
+
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.png' %}">
+    <link rel="stylesheet" href="{% static 'fonts/poppins/stylesheet.css' %}">
+    <link rel="stylesheet" href="{% static 'css/general.css' %}">
+
+    <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}">
+    <style>
+        /* privacy terms size for create account modal */
+
+
+        /* HERO BACKGROUND SHAPE */
+
+
+        .hero-section:before {
+            background-image: url("{% static 'img/hero-wave.png' %}");
+            background-position: top right;
+            background-repeat: no-repeat;
+            -webkit-background-size: contain;
+            background-size: contain;
+            content: "";
+            position: absolute;
+            height: 140%;
+            /* use vw/vh so the shape scales with viewport */
+            right: -21vw;
+            top: -60vh;
+            z-index: -1;
+            width: 100%;
+            transform: translateZ(0);
+        }
+
+
+        .hero-section::after {
+            content: "";
+            position: absolute;
+            top: -12vh;
+            right: -11vw;
+            width: 40vw;
+            height: 40vw;
+            background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.15), transparent 60%);
+            border-radius: 50%;
+            z-index: -1;
+            transform: translateZ(0);
+        }
+
+        @media (min-width: 1636px) {
+
+            .hero-section:before {
+                height: 150%;
+                right: -34vw;
+                top: -50vh;
+            }
+        }
+
+
+
+        @media (min-width: 1280px) {
+            .hero-section:before {
+                height: 140%;
+                right: -21vw;
+                top: -54vh;
+            }
+        }
+
+
+        @media (max-width: 880px) {
+            .hero-section:before {
+                height: 145%;
+                right: -20vw;
+                top: -56vh;
+            }
+        }
+
+
+
+        @media (max-width: 768px) {
+            .hero-section:before {
+
+                display: none;
+
+            }
+
+            .sa-navbar,
+            footer {
+                background: linear-gradient(135deg, #1f3c88, #3268d6);
+            }
+
+            .brand-text,
+            footer {
+                color: white;
+            }
+        }
+    </style>
+
+    <script src="{% static 'js/sidebar.js' %}" defer></script>
+    <script src="{% static 'js/modal.js' %}" defer></script>
+    <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "StudyAssists",
+    "url": "https://www.studyassists.com",
+    "description": "StudyAssists.com is a learning platform that transforms notes and study materials into interactive quizzes."
+  }
+  </script>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="sa-navbar">
+        {% with current_url=request.resolver_match.url_name %}
+        <div class="sa-logo">
+            <a class="sa-brand" href="{% url 'home' %}" aria-label="Study Assist home">
+                <svg class="brand-icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="#22c1ff" d="M2 7l10-5 10 5v2l-10 5L2 9z"></path>
+                    <path fill="#0ea5a4" d="M2 12l10-5 10 5v2l-10 5L2 14z" opacity="0.15"></path>
+                </svg>
+                <span class="brand-text">StudyAssists</span>
+            </a>
+        </div>
+
+        <div class="sa-spacer">
+            <ul class="sa-nav-links">
+                <li class="{% if current_url == 'home' or current_url == 'root' %}is-active{% endif %}"><a class="{% if current_url == 'home' or current_url == 'root' %}is-active{% endif %}" href="{% url 'home' %}">Home</a></li>
+                <li class="{% if current_url == 'upload_notebook' %}is-active{% endif %}"><a class="{% if current_url == 'upload_notebook' %}is-active{% endif %}" href="{% url 'upload_notebook' %}">Upload Notebook</a></li>
+                <li class="{% if current_url == 'results' %}is-active{% endif %}"><a class="{% if current_url == 'results' %}is-active{% endif %}" href="{% url 'results' %}">Results</a></li>
+                <li><a href="#" class="sa-open-feedback">Feedback</a></li>
+            </ul>
+
+            <a href="#" class="sa-desktop-login">Sign in</a>
+
+        </div>
+
+        <svg class="sa-showsidebar" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+            width="24px" fill="#e3e3e3">
+            <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
+        </svg>
+
+        <ul class="sa-sidebar">
+            <li class="sa-sidebar-header">
+                <a class="sa-brand" href="{% url 'home' %}" aria-label="Study Assist home">
+                    <svg class="brand-icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill="#22c1ff" d="M2 7l10-5 10 5v2l-10 5L2 9z"></path>
+                        <path fill="#0ea5a4" d="M2 12l10-5 10 5v2l-10 5L2 14z" opacity="0.15"></path>
+                    </svg>
+                    <span class="brand-text">StudyAssists</span>
+                </a>
+                <svg class="close-sidebar" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                    width="24px" fill="#e3e3e3">
+                    <path
+                        d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                </svg>
+            </li>
+            <li class="sa-sidebar-spacer" aria-hidden="true"></li>
+            <li class="{% if current_url == 'home' or current_url == 'root' %}is-active{% endif %}"><a class="{% if current_url == 'home' or current_url == 'root' %}is-active{% endif %}" href="{% url 'home' %}">Home</a></li>
+            <li class="{% if current_url == 'upload_notebook' %}is-active{% endif %}"><a class="{% if current_url == 'upload_notebook' %}is-active{% endif %}" href="{% url 'upload_notebook' %}">Upload Notebook</a></li>
+            <li class="{% if current_url == 'results' %}is-active{% endif %}"><a class="{% if current_url == 'results' %}is-active{% endif %}" href="{% url 'results' %}">Results</a></li>
+            <li><a href="#" class="sa-open-feedback">Feedback</a></li>
+
+            {% include 'includes/sidebar_signin.html' %}
+        </ul>
+        {% endwith %}
+
+
+
+    </nav>
+
+    <!-- HERO + IMAGE SECTION -->
+    <main>
+        <section class="hero-section">
+            <div class="hero-text">
+                <div class="flash-container">
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="flash flash-{{ message.tags }}">
+                        <span class="flash-message">{{ message }}</span>
+                        <button class="flash-close" onclick="this.parentElement.remove()"
+                            aria-label="Dismiss">×</button>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+
+                <h2>Turn Your Notes into Quizzes!</h2>
+                <p>Ace your exams! Upload your lecture notes or study materials, and we will create practice questions
+                    to
+                    help you increase your readiness for any exam. It’s like having a personal tutor for every class!
+                </p>
+                <a href="{% url 'upload_notebook' %}" class="sa-btn-primary sa-btn-lg" role="button">
+                    Get Started
+                </a>
+            </div>
+
+            <div class="hero-image">
+                <img src="{% static 'img/hero-mockup.png' %}" alt="Study Illustration">
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy;
+            <script>document.write(new Date().getFullYear());</script> StudyAssists | All rights reserved | <a
+                href="{% url 'privacy_policy' %}">Privacy Policy</a>
+        </p>
+    </footer>
+
+    <div class="sa-backdrop"></div>
+
+    <!-- Reusable feedback modal -->
+    {% include 'includes/feedback_modal.html' %}
+
+    <!-- LOGIN MODAL -->
+    <div class="sa-login-modal" id="loginModal">
+        <div class="sa-login-modal-content">
+            <!-- Logo -->
+            <div class="sa-login-logo">
+                <svg width="40" height="40" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="#22c1ff" d="M2 7l10-5 10 5v2l-10 5L2 9z"></path>
+                    <path fill="#0ea5a4" d="M2 12l10-5 10 5v2l-10 5L2 14z" opacity="0.15"></path>
+                </svg>
+            </div>
+
+            <!-- Title -->
+            <h2>Welcome to StudyAssists</h2>
+            <p class="sa-login-subtitle">sign in to continue</p>
+
+            <!-- Auth Buttons -->
+            <button class="sa-auth-btn sa-auth-google">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                        fill="#4285F4" />
+                    <path
+                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                        fill="#34A853" />
+                    <path
+                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                        fill="#FBBC05" />
+                    <path
+                        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                        fill="#EA4335" />
+                </svg>
+                Login with Google
+            </button>
+
+            <button class="sa-auth-btn sa-auth-apple">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2.01.77-3.27.82-1.31.05-2.3-1.3-3.14-2.53C4.25 17.12 3.5 15.17 3.5 13.19c0-2.1 1.37-3.22 2.71-3.26 1.36-.04 2.63.95 3.27.95.64 0 2.05-1.17 3.46-1.01.57.03 2.2.22 3.24 1.67-.1.07-.17.11-.24.18-1.52 1.15-1.84 3.3-.4 4.58.76.64 1.78.857 2.8.857.28-.02.57-.04.86-.07-.27.84-.7 1.63-1.2 2.25z M12.04 6.03c-.77-.8-1.98-1.27-2.99-.98-.02.77.25 1.56.88 2.12.66.59 1.66 1.02 2.53.98.09-.79-.23-1.56-.42-2.12z" />
+                </svg>
+                Login with Apple
+            </button>
+
+            <!-- Divider -->
+            <div class="sa-login-divider">
+                <span>Or</span>
+            </div>
+
+            <!-- Email Login Form -->
+            <form class="sa-email-form">
+                <button type="button" class="sa-auth-btn sa-auth-email sa-open-email-flow">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect>
+                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                    </svg>
+                    Login with Email
+                </button>
+            </form>
+
+            <!-- Terms -->
+            <p class="sa-login-terms">Or <a href="#" class="sa-email-switch-to-signup">create an account</a></p>
+            <p class="sa-login-terms">
+                By continuing, you agree to our <a href="{% url 'terms_of_service' %}">Terms of Service</a> and <a
+                    href="{% url 'privacy_policy' %}">Privacy Policy</a>
+            </p>
+
+            <!-- Close Button -->
+            <button class="sa-login-close" aria-label="Close login modal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- EMAIL LOGIN MODAL -->
+    <div class="sa-login-modal" id="emailLoginModal" aria-hidden="true">
+        <div class="sa-login-modal-content">
+            <button type="button" class="sa-login-back sa-email-login-back" aria-label="Back">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    stroke="currentColor" stroke-width="2">
+                    <path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+            <h2>Log in</h2>
+            <form id="emailLoginForm" class="sa-email-form">
+                <input type="email" name="email" class="sa-email-input" placeholder="your.email@example.com" required>
+                <input type="password" name="password" class="sa-email-input" placeholder="Password" required>
+                <label class="sa-remember-me">
+                    <input type="checkbox" name="remember" class="sa-remember-checkbox">
+                    <span>Remember me</span>
+                </label>
+                <button type="submit" class="sa-auth-btn sa-auth-email">Log in</button>
+            </form>
+            <p class="sa-login-terms">Or <a href="#" class="sa-email-switch-to-signup">create an account</a></p>
+            <button class="sa-login-close sa-email-login-close" aria-label="Close login modal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- EMAIL SIGNUP MODAL -->
+    <div class="sa-login-modal" id="emailSignupModal" aria-hidden="true">
+        <div class="sa-login-modal-content">
+            <button type="button" class="sa-login-back sa-email-signup-back" aria-label="Back">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    stroke="currentColor" stroke-width="2">
+                    <path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+            <h2>Create account</h2>
+            <form id="emailSignupForm" class="sa-email-form">
+                <input type="text" name="name" class="sa-email-input" placeholder="Your name" required>
+                <input type="email" name="email" class="sa-email-input" placeholder="your.email@example.com" required>
+                <input type="password" name="password" class="sa-email-input" placeholder="Password" required>
+                <label class="sa-privacy-terms">
+                    <input type="checkbox" name="privacy_terms" required>
+                    <span>I agree to the <a href="{% url 'privacy_policy' %}" target="_blank">Privacy Policy</a> and <a
+                            href="{% url 'terms_of_service' %}" target="_blank">Terms of Service</a></span>
+                </label>
+                <button type="submit" class="sa-auth-btn sa-auth-email">Sign up</button>
+            </form>
+            <p class="sa-login-terms">Already have an account? <a href="#" class="sa-email-switch-to-login">Log in</a>
+            </p>
+            <button class="sa-login-close sa-email-signup-close" aria-label="Close signup modal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+</body>
+
+</html>

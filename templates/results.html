@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}StudyAssists | Results{% endblock %}
+
+{% block extra_css %}
+<!-- Google Tag Manager -->
+<script>(function (w, d, s, l, i) {
+        w[l] = w[l] || []; w[l].push({
+            'gtm.start':
+                new Date().getTime(), event: 'gtm.js'
+        }); var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-MRKQ9T4W');</script>
+<!-- End Google Tag Manager -->
+<link rel="stylesheet" href="{% static 'fonts/poppins/stylesheet.css' %}">
+<link rel="stylesheet" href="{% static 'css/result.css' %}">
+{% endblock %}
+
+{% block content %}
+
+
+<div class="container page-wrap">
+
+
+    <!-- ========== MAIN ========== -->
+    <main class="main" id="main">
+
+
+
+        <div class="results_container">
+            <div class="flash-container">
+                {% if messages %}
+                {% for message in messages %}
+                <div class="flash flash-{{ message.tags }}">
+                    <span class="flash-message">{{ message }}</span>
+                    <button class="flash-close" onclick="this.parentElement.remove()" aria-label="Dismiss">×</button>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+
+            <h2> Results</h2>
+            <div class="table_wrapper">
+
+
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Uploaded File</th>
+                            <th>Score</th>
+                            <th>Percentage</th>
+                            <th>Date & Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if results %}
+                        {% for result in results %}
+                        <tr>
+                            <td data-label="Uploaded File">{{ result.filename }}</td>
+                            <td data-label="Score" class="score">{{ result.correct }}/{{ result.total }}</td>
+                            <td data-label="Percentage" class="score">{{ result.percent }}%</td>
+                            <td data-label="Date & Time">{{ result.test_datetime }}</td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+
+
+                        <tr class="result_table">
+                            <td colspan="4" class="no-result-message">
+                                No result currently available. Do a <a href="{% url 'upload_notebook' %}">
+                                    Quiz
+                                </a>
+                                to generate one
+                            </td>
+                        </tr>
+
+                        <p class="mobile-no-result-message">
+                            No result currently available. Do a <a href="{% url 'upload_notebook' %}"> Quiz
+                            </a>
+                            to generate one
+                        </p>
+
+                        {% endif %}
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+
+
+
+
+    </main>
+    <!-- /MAIN -->
+</div>
+
+{% endblock %}

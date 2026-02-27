@@ -1,0 +1,158 @@
+main {
+    flex: 1;
+    display: block
+}
+
+.sa-navbar,
+footer {
+    background: linear-gradient(135deg, #1f3c88, #3268d6);
+}
+
+
+.brand-text,
+footer {
+    color: white;
+}
+
+.results_container {
+    padding: 1rem;
+}
+
+
+.mobile-no-result-message {
+    display: none;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+
+}
+
+thead {
+    background-color: #1e4ea8;
+    color: white;
+}
+
+th,
+td {
+    padding: 0.9rem 1rem;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+tbody tr {
+    border-bottom: 1px solid #eee;
+}
+
+tbody tr:last-child {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background: #f8f9ff;
+}
+
+.score {
+    font-weight: 600;
+    color: #1e4ea8;
+}
+
+.table_wrapper {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+}
+
+
+@media (max-width: 768px) {
+
+    table,
+    thead,
+    tbody,
+    tr {
+        display: block;
+        width: 100%;
+    }
+
+    thead {
+        display: none;
+    }
+
+    .results_container {
+        padding: 1rem;
+    }
+
+    tbody tr {
+        margin-bottom: 1rem;
+        padding: 1rem;
+        border-radius: 14px;
+        background: white;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    /* GRID ROW */
+    td {
+        display: grid;
+        grid-template-columns: 110px .9fr;
+        gap: 0.75rem;
+        align-items: center;
+        padding: 0.5rem 0;
+        font-size: 0.95rem;
+        border: none;
+        word-break: break-all;
+    }
+
+    /* LABEL BOX */
+    td::before {
+        content: attr(data-label);
+        background: #f1f5f9;
+        color: #475569;
+        font-weight: 600;
+        padding: 0.35rem 0.6rem;
+        border-radius: 8px;
+        text-align: center;
+        font-size: 0.75rem;
+        white-space: nowrap;
+        word-break: break-word;
+    }
+
+    /* VALUE BOX */
+    td:not(::before) {
+        color: #111827;
+        text-align: left;
+    }
+
+    /* SCORE HIGHLIGHT */
+    td.score {
+        font-weight: 600;
+        color: #4f46e5;
+    }
+
+    .result_table {
+        display: none;
+    }
+
+    .mobile-no-result-message {
+        display: block;
+        padding: 0.35rem 0rem;
+    }
+
+    .table_wrapper {
+        border: none;
+        box-shadow: none;
+    }
+
+    .mobile-no-result-message a {
+        text-decoration: underline;
+    }
+
+
+
+
+}

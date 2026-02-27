@@ -1,0 +1,43 @@
+<!-- Cookie Consent Dialog -->
+<div class="cookie-consent" id="cookieConsent" role="dialog" aria-labelledby="cookie-title" aria-hidden="true">
+    <div class="cookie-consent-content">
+        <div class="cookie-header">
+            <h3 id="cookie-title">🍪 Cookie Consent</h3>
+        </div>
+        <p class="cookie-message">
+            We use cookies to enhance your experience. By continuing to browse, you agree to our use of cookies.
+        </p>
+        <div class="cookie-actions">
+            <button class="cookie-btn cookie-decline"
+                onclick="document.getElementById('cookieConsent').setAttribute('aria-hidden', 'true'); document.getElementById('cookieConsent').classList.remove('active'); localStorage.setItem('cookieConsent', 'declined');">
+                Decline
+            </button>
+            <button class="cookie-btn cookie-accept"
+                onclick="document.getElementById('cookieConsent').setAttribute('aria-hidden', 'true'); document.getElementById('cookieConsent').classList.remove('active'); localStorage.setItem('cookieConsent', 'accepted');">
+                Accept All
+            </button>
+
+            <button class="cookie-close" aria-label="Close cookie consent"
+                onclick="document.getElementById('cookieConsent').setAttribute('aria-hidden', 'true'); document.getElementById('cookieConsent').classList.remove('active');">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Show cookie consent on first visit
+    document.addEventListener('DOMContentLoaded', function () {
+        const consent = localStorage.getItem('cookieConsent');
+        const cookieDialog = document.getElementById('cookieConsent');
+        if (!consent && cookieDialog) {
+            setTimeout(() => {
+                cookieDialog.classList.add('active');
+                cookieDialog.setAttribute('aria-hidden', 'false');
+            }, 1000);
+        }
+    });
+</script>

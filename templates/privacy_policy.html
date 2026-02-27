@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Privacy Policy | StudyAssists{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'fonts/poppins/stylesheet.css' %}">
+<style>
+    .policy-page {
+        max-width: 980px;
+        padding: 10px 20px;
+
+    }
+
+    .policy-page h1 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    details {
+        margin-bottom: 12px;
+    }
+
+    details summary {
+        cursor: pointer;
+        list-style: none;
+        padding: 14px 18px;
+        border-radius: 8px;
+        background: linear-gradient(90deg, #1f3c88, #3268d6);
+        color: white;
+    }
+
+    details[open] summary {
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    }
+
+    details>* {
+        padding: 16px 18px;
+        background: white;
+        border-radius: 0 0 8px 8px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="policy-page">
+    <div class="flash-container">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="flash flash-{{ message.tags }}">
+            <span class="flash-message">{{ message }}</span>
+            <button class="flash-close" onclick="this.parentElement.remove()" aria-label="Dismiss">×</button>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+
+    <h1>Privacy Policy</h1>
+    <p><strong>Effective Date:</strong> January 2026</p>
+
+    <p>StudyAssists ("we", "our", "us") respects your privacy and is committed to
+        protecting your personal data in accordance with the General Data Protection
+        Regulation (GDPR).</p>
+
+    <!-- spacer between intro and first section -->
+    <p>&nbsp;</p>
+
+    <details>
+        <summary>1. Information We Collect</summary>
+        <ul>
+            <li><strong>Account Information:</strong> email address, username, and encrypted password</li>
+            <li><strong>Uploaded Content:</strong> files or text you upload (such as study notes)</li>
+            <li><strong>Technical Data:</strong> IP address, browser type, device type</li>
+            <li><strong>Usage Data:</strong> pages visited and features used</li>
+        </ul>
+    </details>
+
+    <details>
+        <summary>2. How We Use Your Information</summary>
+        <ul>
+            <li>To create and manage user accounts</li>
+            <li>To process uploads and generate quizzes</li>
+            <li>To respond to support or feedback inquiries</li>
+            <li>To analyse and improve the site</li>
+        </ul>
+    </details>
+
+    <details>
+        <summary>3. Legal Basis for Processing</summary>
+        <p>We process your data based on:</p>
+        <ul>
+            <li>Your consent</li>
+            <li>Performance of a contract</li>
+            <li>Legitimate interests in operating the service</li>
+        </ul>
+    </details>
+
+    <details>
+        <summary>4. Data Storage and Security</summary>
+        <p>Your data is stored on servers located in Germany or within the European
+            Union. We use appropriate technical and organizational security measures to
+            protect your data.</p>
+    </details>
+
+    <details>
+        <summary>5. Data Retention</summary>
+        <p>We retain your data only for as long as necessary to provide our services.
+            You may request deletion of your account and data at any time.</p>
+    </details>
+
+    <details>
+        <summary>6. Cookies</summary>
+        <p>We may use essential cookies to ensure proper website functionality (such as
+            login sessions). We do not use advertising or tracking cookies.</p>
+    </details>
+
+    <details>
+        <summary>7. Sharing of Data</summary>
+        <p>We do not sell or rent your personal data. Data may be shared only with
+            trusted service providers for the purpose of operating the service.</p>
+    </details>
+
+    <details>
+        <summary>8. International Transfers</summary>
+        <p>If data is processed outside the EU, appropriate safeguards will be used in
+            accordance with GDPR.</p>
+    </details>
+
+    <details>
+        <summary>9. Your Rights</summary>
+        <ul>
+            <li>Access your data</li>
+            <li>Correct inaccurate data</li>
+            <li>Request deletion (“right to be forgotten”)</li>
+            <li>Restrict or object to processing</li>
+            <li>Data portability</li>
+            <li>Withdraw consent</li>
+        </ul>
+    </details>
+
+    <details>
+        <summary>10. Children's Privacy</summary>
+        <p>StudyAssists is intended for students and educators. We do not knowingly
+            collect personal data from children under 13.</p>
+    </details>
+
+    <details>
+        <summary>11. Changes to This Policy</summary>
+        <p>We may update this Privacy Policy from time to time. Updates will be posted
+            on this page with a new effective date.</p>
+    </details>
+
+    <details>
+        <summary>12. Contact</summary>
+        <p>If you have questions about this Privacy Policy or your data, contact us at:</p>
+        <p><strong>Email:</strong> support@studyassists.com</p>
+        <p><strong>Hosting Location:</strong> Germany</p>
+    </details>
+</section>
+{% endblock %}

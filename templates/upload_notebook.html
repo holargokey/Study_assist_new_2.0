@@ -1,0 +1,305 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}StudyAssists | Generate-Quiz{% endblock %}
+
+{% block extra_css %}
+<script>(function (w, d, s, l, i) {
+    w[l] = w[l] || []; w[l].push({
+        'gtm.start': new Date().getTime(), event: 'gtm.js'
+    });
+    var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l != 'dataLayer' ? '&l=' + l : '';
+    j.async = true;
+    j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+    f.parentNode.insertBefore(j, f);
+})(window, document, 'script', 'dataLayer', 'GTM-MRKQ9T4W');</script>
+
+<link rel="stylesheet" href="{% static 'fonts/poppins/stylesheet.css' %}">
+<link rel="stylesheet" href="{% static 'css/upload_notebook.css' %}">
+<link rel="stylesheet" href="{% static 'css/modal.css' %}">
+<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+
+<style>
+.question-toggle-btn {
+    background: #1e4ea8;
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* Match button label typography with page content sections */
+body.upload-page .mybutton,
+body.upload-page .question-toggle-btn,
+body.upload-page #uploadBtn,
+body.upload-page #browseBtn,
+body.upload-page #generateBtn,
+body.upload-page #askBtn,
+body.upload-page #submitQuizBtn,
+body.upload-page #deleteDocBtn,
+body.upload-page #exportPdfBtn,
+body.upload-page .exportpdf {
+    font-family: "Poppins", sans-serif !important;
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+    line-height: 1.4;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+.question-toggle-btn:hover {
+    background: #0b5ed7;
+}
+
+.question-collapse-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+}
+
+.question-collapse-panel.open {
+    max-height: 500px;
+}
+
+body.upload-page > main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+    align-items: stretch;
+    justify-content: stretch;
+    min-height: auto;
+    height: auto;
+    padding: 0;
+    margin: 0;
+    overflow: visible !important;
+}
+
+body.upload-page {
+    margin: 0;
+    min-height: 100vh;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto !important;
+    font-family: "Poppins", sans-serif;
+    background: #fff;
+    color: #fff;
+}
+
+body.upload-page .container.page-wrap {
+    display: flex;
+    flex: 0 0 auto;
+    min-height: calc(100vh - 110px);
+    height: auto;
+    overflow: visible;
+    align-items: stretch;
+    justify-content: space-between;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+}
+
+body.upload-page .main {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    color: rgba(0, 0, 0, 0.8);
+    padding: 4px 30px 30px;
+    overflow: visible !important;
+    position: relative;
+    min-height: auto;
+    height: auto;
+    padding-bottom: 20px;
+}
+
+body.upload-page #main {
+    overflow: visible !important;
+}
+
+/* Force visible modal redesign on this page */
+body.upload-page #customModal .custom-modal-content {
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%) !important;
+    border: 1px solid #e6edf8 !important;
+    border-radius: 14px !important;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.26) !important;
+    box-sizing: border-box !important;
+}
+
+body.upload-page #customModal .notification_modal p {
+    color: #0f172a !important;
+    font-weight: 700 !important;
+}
+
+body.upload-page #customModal .custom-modal-close {
+    background: #eef4ff !important;
+    color: #1f3c88 !important;
+    border-radius: 8px !important;
+}
+
+body.upload-page #customModal .mymodalbutton {
+    background: linear-gradient(135deg, #1f3c88, #3268d6) !important;
+    color: #fff !important;
+    border-radius: 10px !important;
+}
+
+body.upload-page #customModal #customModalMsg {
+    max-width: 100% !important;
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
+}
+
+body.upload-page footer {
+    position: static !important;
+    inset: auto !important;
+    margin-top: 0 !important;
+    flex-shrink: 0;
+    z-index: 0 !important;
+    display: flex;
+    background: linear-gradient(135deg, #1f3c88, #3268d6);
+    color: #fff;
+}
+
+body.upload-page main {
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+}
+
+body.upload-page .sa-navbar li,
+body.upload-page .sa-nav-links li {
+    background: transparent !important;
+}
+
+body.upload-page #fileList .doc-item,
+body.upload-page #fileList .doc-row {
+    display: flex;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    gap: 8px;
+}
+
+body.upload-page #fileList .doc-main {
+    margin-left: 0 !important;
+    text-align: left;
+}
+
+/* Force navbar logo to match results/base on this page */
+body.upload-page .sa-navbar .sa-brand .brand-icon {
+    width: 24px !important;
+    height: 24px !important;
+    flex: 0 0 24px !important;
+    padding-top: 0 !important;
+}
+
+/* Force uploaded-files radio + title top alignment on this page */
+body.upload-page #fileList .doc-row {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 8px;
+}
+
+body.upload-page #fileList .doc-row .doc-select {
+    margin: 0 !important;
+    margin-top: 1px !important;
+    align-self: flex-start !important;
+    flex: 0 0 auto;
+}
+
+body.upload-page #fileList .doc-row .doc-main,
+body.upload-page #fileList .doc-row .doc-name {
+    margin: 0 !important;
+    line-height: 1.2;
+    text-align: left;
+}
+
+/* Keep left sidebar width identical to upload_notebook page */
+body.upload-page #sidebar {
+    width: 250px !important;
+    flex: 0 0 250px !important;
+}
+
+body.upload-page #sidebar.collapsed {
+    width: 20px !important;
+    flex: 0 0 20px !important;
+}
+
+@media (max-width: 667px) {
+    body.upload-page header,
+    body.upload-page .sa-navbar {
+        display: none !important;
+    }
+
+    body.upload-page #sidebar {
+        width: 260px !important;
+        flex: 0 0 260px !important;
+    }
+
+    body.upload-page .main {
+        padding: 0 !important;
+        overflow: visible;
+        height: auto;
+    }
+
+    body.upload-page {
+        height: auto;
+        min-height: 100vh;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background: #fff;
+    }
+
+    body.upload-page .container.page-wrap {
+        height: auto;
+        min-height: auto;
+        overflow: visible;
+    }
+
+    body.upload-page .mobile_padding {
+        background: #fff;
+        flex: 0 0 auto;
+        min-height: auto;
+    }
+
+    body.upload-page footer {
+        position: static !important;
+    }
+}
+</style>
+{% endblock %}
+
+{% block body_attrs %}class="upload-page" data-job-id="{{ job_id|default:'' }}"{% endblock %}
+
+{% block content %}
+{% include "includes/upload_workspace.html" %}
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script defer src="{% static 'js/final.js' %}"></script>
+<script>
+const questionToggle = document.getElementById("questionToggle");
+const panel = document.getElementById("askQuestionPanel");
+
+if (questionToggle && panel) {
+    questionToggle.addEventListener("click", () => {
+        const isOpen = panel.classList.toggle("open");
+        questionToggle.setAttribute("aria-expanded", isOpen);
+        const icon = questionToggle.querySelector(".collapse-icon");
+        if (icon) {
+            icon.classList.toggle("fa-chevron-down", !isOpen);
+            icon.classList.toggle("fa-chevron-up", isOpen);
+        }
+    });
+}
+</script>
+{% endblock %}

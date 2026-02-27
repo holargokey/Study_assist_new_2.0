@@ -1,0 +1,135 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <title>{% block title %}StudyAssists{% endblock %}</title>
+
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.svg' %}">
+
+
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+
+    <script src="{% static 'js/sidebar.js' %}" defer></script>
+    <script src="{% static 'js/modal.js' %}" defer></script>
+
+    <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "StudyAssists",
+    "url": "https://www.studyassists.com",
+    "description": "StudyAssists.com is a learning platform that transforms notes and study materials into interactive quizzes."
+  }
+  </script>
+
+
+    <style>
+        .sa-navbar,
+        footer {
+            background: linear-gradient(135deg, #1f3c88, #3268d6);
+        }
+
+        .brand-text,
+        footer {
+            color: white;
+        }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body {% block body_attrs %}{% endblock %}>
+    <header>
+
+        <nav class="sa-navbar">
+            {% with current_url=request.resolver_match.url_name %}
+            <div class="sa-logo">
+                <a class="sa-brand" href="{% url 'home' %}" aria-label="Study Assist home">
+                    <svg class="brand-icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill="#22c1ff" d="M2 7l10-5 10 5v2l-10 5L2 9z"></path>
+                        <path fill="#0ea5a4" d="M2 12l10-5 10 5v2l-10 5L2 14z" opacity="0.15"></path>
+                    </svg>
+                    <span class="brand-text">StudyAssists</span>
+                </a>
+            </div>
+
+            <div class="sa-spacer">
+                <ul class="sa-nav-links">
+                    <li class="{% if current_url == 'home' or current_url == 'root' %}is-active{% endif %}"><a class="{% if current_url == 'home' or current_url == 'root' %}is-active{% endif %}" href="{% url 'home' %}">Home</a></li>
+                    <li class="{% if current_url == 'upload_notebook' %}is-active{% endif %}"><a class="{% if current_url == 'upload_notebook' %}is-active{% endif %}" href="{% url 'upload_notebook' %}">Upload Notebook</a></li>
+                    <li class="{% if current_url == 'results' %}is-active{% endif %}"><a class="{% if current_url == 'results' %}is-active{% endif %}" href="{% url 'results' %}">Results</a></li>
+                    <li><a href="#" class="sa-open-feedback">Feedback</a></li>
+                </ul>
+
+                <a href="#" class="sa-desktop-login">Sign in</a>
+            </div>
+
+            <svg class="sa-showsidebar" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                width="24px" fill="#e3e3e3">
+                <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
+            </svg>
+
+            <ul class="sa-sidebar">
+                <li class="sa-sidebar-header">
+                    <a class="sa-brand" href="{% url 'home' %}" aria-label="Study Assist home">
+                        <svg class="brand-icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill="#22c1ff" d="M2 7l10-5 10 5v2l-10 5L2 9z"></path>
+                            <path fill="#0ea5a4" d="M2 12l10-5 10 5v2l-10 5L2 14z" opacity="0.15"></path>
+                        </svg>
+                        <span class="brand-text">StudyAssists</span>
+                    </a>
+                    <svg class="close-sidebar" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                        width="24px" fill="#e3e3e3">
+                        <path
+                            d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                    </svg>
+                </li>
+                <li class="sa-sidebar-spacer" aria-hidden="true"></li>
+                <li class="{% if current_url == 'home' or current_url == 'root' %}is-active{% endif %}"><a class="{% if current_url == 'home' or current_url == 'root' %}is-active{% endif %}" href="{% url 'home' %}">Home</a></li>
+                <li class="{% if current_url == 'upload_notebook' %}is-active{% endif %}"><a class="{% if current_url == 'upload_notebook' %}is-active{% endif %}" href="{% url 'upload_notebook' %}">Upload Notebook</a></li>
+                <li class="{% if current_url == 'results' %}is-active{% endif %}"><a class="{% if current_url == 'results' %}is-active{% endif %}" href="{% url 'results' %}">Results</a></li>
+                <li><a href="#" class="sa-open-feedback">Feedback</a></li>
+
+                {% include 'includes/sidebar_signin.html' %}
+            </ul>
+            {% endwith %}
+
+        </nav>
+
+
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy;
+            <script>document.write(new Date().getFullYear());</script> StudyAssists | All rights reserved | <a
+                href="{% url 'privacy_policy' %}">Privacy Policy</a>
+        </p>
+    </footer>
+
+    <div class="sa-backdrop"></div>
+
+    <!-- Reusable feedback modal -->
+    {% include 'includes/feedback_modal.html' %}
+
+    <!-- Reusable auth modals -->
+    {% include 'includes/auth_modals.html' %}
+
+    <!-- Cookie consent dialog -->
+    {% include 'includes/cookie_consent.html' %}
+
+    {% block extra_js %}
+    <script src="{% static 'js/main.js' %}"></script>
+    {% endblock %}
+
+
+</body>
+
+</html>

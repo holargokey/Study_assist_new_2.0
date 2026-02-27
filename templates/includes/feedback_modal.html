@@ -1,0 +1,58 @@
+<!-- Feedback modal (reusable across pages) -->
+<div class="feedback-backdrop" id="feedback-modal" aria-hidden="true">
+    <form class="feedback-modal" id="feedbackForm" method="POST" action="{% url 'send_feedback' %}">
+        {% csrf_token %}
+        <div class="feedback-modal-flash flash-container" id="feedback-modal-flash" aria-live="polite"></div>
+        <div class="feedback-header">
+            <h2 class="feedback-title">Give Feedback</h2>
+            <button type="button" class="feedback-modal-close" aria-label="Close feedback">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true">
+                    <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round"></line>
+                    <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round"></line>
+                </svg>
+            </button>
+        </div>
+        <p class="feedback-subtitle">Help us improve <strong>Studyassists</strong> for everyone.</p>
+
+        <div class="feedback-rating">
+            <label class="feedback-label">Rate your experience</label>
+            <div class="feedback-stars">
+                <input type="radio" name="rating" id="feedback-star5" value="5">
+                <label for="feedback-star5">★</label>
+                <input type="radio" name="rating" id="feedback-star4" value="4">
+                <label for="feedback-star4">★</label>
+                <input type="radio" name="rating" id="feedback-star3" value="3">
+                <label for="feedback-star3">★</label>
+                <input type="radio" name="rating" id="feedback-star2" value="2">
+                <label for="feedback-star2">★</label>
+                <input type="radio" name="rating" id="feedback-star1" value="1">
+                <label for="feedback-star1">★</label>
+            </div>
+        </div>
+
+        <div class="feedback-field">
+            <label class="feedback-label">Category</label>
+            <select name="category" class="feedback-select" required>
+                <option value="" disabled selected>Select category</option>
+                <option value="Bug">Bug</option>
+                <option value="Feature Request">Feature Request</option>
+                <option value="UI / UX">UI / UX</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <div class="feedback-field">
+            <label class="feedback-label">Message</label>
+            <textarea name="message" class="feedback-textarea" placeholder="Let us know what you think or discovered"
+                required></textarea>
+        </div>
+
+        <div class="feedback-actions">
+            <button type="button" class="feedback-btn feedback-cancel" id="feedback-close">Cancel</button>
+            <button type="submit" class="feedback-btn feedback-send">Send</button>
+        </div>
+    </form>
+</div>
