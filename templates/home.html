@@ -1,6 +1,7 @@
-{% load static %}
+{% load static i18n %}
 <!DOCTYPE html>
-<html lang="en">
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE }}">
 
 <head>
     <!-- Google Tag Manager -->
@@ -150,13 +151,13 @@
 
         <div class="sa-spacer">
             <ul class="sa-nav-links">
-                <li class="{% if current_url == 'home' or current_url == 'root' %}is-active{% endif %}"><a class="{% if current_url == 'home' or current_url == 'root' %}is-active{% endif %}" href="{% url 'home' %}">Home</a></li>
-                <li class="{% if current_url == 'upload_notebook' %}is-active{% endif %}"><a class="{% if current_url == 'upload_notebook' %}is-active{% endif %}" href="{% url 'upload_notebook' %}">Upload Notebook</a></li>
-                <li class="{% if current_url == 'results' %}is-active{% endif %}"><a class="{% if current_url == 'results' %}is-active{% endif %}" href="{% url 'results' %}">Results</a></li>
-                <li><a href="#" class="sa-open-feedback">Feedback</a></li>
+                <li class="{% if current_url == 'home' or current_url == 'root' %}is-active{% endif %}"><a class="{% if current_url == 'home' or current_url == 'root' %}is-active{% endif %}" href="{% url 'home' %}">{% trans "Home" %}</a></li>
+                <li class="{% if current_url == 'upload_notebook' %}is-active{% endif %}"><a class="{% if current_url == 'upload_notebook' %}is-active{% endif %}" href="{% url 'upload_notebook' %}">{% trans "Upload Notebook" %}</a></li>
+                <li class="{% if current_url == 'results' %}is-active{% endif %}"><a class="{% if current_url == 'results' %}is-active{% endif %}" href="{% url 'results' %}">{% trans "Results" %}</a></li>
+                <li><a href="#" class="sa-open-feedback">{% trans "Feedback" %}</a></li>
             </ul>
 
-            <a href="#" class="sa-desktop-login">Sign in</a>
+            <a href="#" class="sa-desktop-login">{% trans "Sign in" %}</a>
 
         </div>
 
@@ -181,10 +182,10 @@
                 </svg>
             </li>
             <li class="sa-sidebar-spacer" aria-hidden="true"></li>
-            <li class="{% if current_url == 'home' or current_url == 'root' %}is-active{% endif %}"><a class="{% if current_url == 'home' or current_url == 'root' %}is-active{% endif %}" href="{% url 'home' %}">Home</a></li>
-            <li class="{% if current_url == 'upload_notebook' %}is-active{% endif %}"><a class="{% if current_url == 'upload_notebook' %}is-active{% endif %}" href="{% url 'upload_notebook' %}">Upload Notebook</a></li>
-            <li class="{% if current_url == 'results' %}is-active{% endif %}"><a class="{% if current_url == 'results' %}is-active{% endif %}" href="{% url 'results' %}">Results</a></li>
-            <li><a href="#" class="sa-open-feedback">Feedback</a></li>
+            <li class="{% if current_url == 'home' or current_url == 'root' %}is-active{% endif %}"><a class="{% if current_url == 'home' or current_url == 'root' %}is-active{% endif %}" href="{% url 'home' %}">{% trans "Home" %}</a></li>
+            <li class="{% if current_url == 'upload_notebook' %}is-active{% endif %}"><a class="{% if current_url == 'upload_notebook' %}is-active{% endif %}" href="{% url 'upload_notebook' %}">{% trans "Upload Notebook" %}</a></li>
+            <li class="{% if current_url == 'results' %}is-active{% endif %}"><a class="{% if current_url == 'results' %}is-active{% endif %}" href="{% url 'results' %}">{% trans "Results" %}</a></li>
+            <li><a href="#" class="sa-open-feedback">{% trans "Feedback" %}</a></li>
 
             {% include 'includes/sidebar_signin.html' %}
         </ul>
@@ -228,10 +229,28 @@
 
     <!-- FOOTER -->
     <footer>
-        <p>&copy;
-            <script>document.write(new Date().getFullYear());</script> StudyAssists | All rights reserved | <a
-                href="{% url 'privacy_policy' %}">Privacy Policy</a>
-        </p>
+        <div class="sa-footer-content">
+            <p>&copy;
+                <script>document.write(new Date().getFullYear());</script> StudyAssists | {% trans "All rights reserved" %} | <a
+                    href="{% url 'privacy_policy' %}">{% trans "Privacy Policy" %}</a>
+            </p>
+            <form action="{% url 'set_language' %}" method="post" class="sa-language-form">
+                {% csrf_token %}
+                <input name="next" type="hidden" value="{{ request.get_full_path }}">
+                <label for="sa-language-select-home">{% trans "Language" %}</label>
+                {% get_available_languages as AVAILABLE_LANGUAGES %}
+                {% get_language_info_list for AVAILABLE_LANGUAGES as language_info_list %}
+                {% with active_lang=LANGUAGE_CODE|slice:":2" %}
+                <select name="language" id="sa-language-select-home" onchange="this.form.submit()">
+                    {% for lang in language_info_list %}
+                    <option value="{{ lang.code }}" {% if lang.code == active_lang %}selected{% endif %}>
+                        {{ lang.name_local }}
+                    </option>
+                    {% endfor %}
+                </select>
+                {% endwith %}
+            </form>
+        </div>
     </footer>
 
     <div class="sa-backdrop"></div>
