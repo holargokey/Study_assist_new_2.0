@@ -1,7 +1,6 @@
 {% load static i18n %}
 <!DOCTYPE html>
-{% get_current_language as LANGUAGE_CODE %}
-<html lang="{{ LANGUAGE_CODE }}">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -66,7 +65,15 @@
                     <li><a href="#" class="sa-open-feedback">{% trans "Feedback" %}</a></li>
                 </ul>
 
-                <a href="#" class="sa-desktop-login">{% trans "Sign in" %}</a>
+                {% if request.user.is_authenticated %}
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                    <button type="submit" class="sa-desktop-login sa-logout-btn">{% trans "Log out" %}</button>
+                </form>
+                {% else %}
+                <a href="#" class="sa-desktop-login sa-open-login">{% trans "Sign in" %}</a>
+                {% endif %}
             </div>
 
             <svg class="sa-showsidebar" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
@@ -114,22 +121,6 @@
                 <script>document.write(new Date().getFullYear());</script> StudyAssists | {% trans "All rights reserved" %} | <a
                     href="{% url 'privacy_policy' %}">{% trans "Privacy Policy" %}</a>
             </p>
-            <form action="{% url 'set_language' %}" method="post" class="sa-language-form">
-                {% csrf_token %}
-                <input name="next" type="hidden" value="{{ request.get_full_path }}">
-                <label for="sa-language-select">{% trans "Language" %}</label>
-                {% get_available_languages as AVAILABLE_LANGUAGES %}
-                {% get_language_info_list for AVAILABLE_LANGUAGES as language_info_list %}
-                {% with active_lang=LANGUAGE_CODE|slice:":2" %}
-                <select name="language" id="sa-language-select" onchange="this.form.submit()">
-                    {% for lang in language_info_list %}
-                    <option value="{{ lang.code }}" {% if lang.code == active_lang %}selected{% endif %}>
-                        {{ lang.name_local }}
-                    </option>
-                    {% endfor %}
-                </select>
-                {% endwith %}
-            </form>
         </div>
     </footer>
 

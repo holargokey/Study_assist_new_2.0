@@ -110,7 +110,7 @@ a {
 }
 
 .sa-nav-links li:hover {
-    background-color: rgb(0, 123, 255);
+    background-color: transparent;
 }
 
 .sa-nav-links li.is-active {
@@ -201,11 +201,15 @@ a {
     gap: 0.6rem;
     width: 100%;
     padding: 0.75rem 1rem;
+    border: none;
     border-radius: 10px;
     background: rgba(229, 198, 86);
     text-decoration: none;
     font-size: 0.95rem;
     color: #1f1f1f;
+    font: inherit;
+    cursor: pointer;
+    appearance: none;
 }
 
 .sa-signin-btn:hover {
@@ -216,12 +220,16 @@ a {
 .sa-desktop-login {
     margin-left: auto;
     padding: 8px 16px;
+    border: none;
     border-radius: 20px;
     background: rgba(0, 0, 0, 0.15);
     background: rgba(229, 198, 86);
     text-decoration: none;
     font-weight: 600;
     color: #1f1f1f;
+    font: inherit;
+    cursor: pointer;
+    appearance: none;
 
 }
 
@@ -800,6 +808,17 @@ footer {
 
 #emailSignupModal .sa-privacy-terms {
     font-size: 13px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: #4b5563;
+    line-height: 1.45;
+    text-align: left;
+}
+
+#emailSignupModal .sa-privacy-terms span {
+    display: block;
+    text-align: left;
 }
 
 
@@ -1073,8 +1092,9 @@ footer {
 .flash-message {
     flex: 1 1 auto;
     min-width: 0;
-    overflow-wrap: anywhere;
-    word-break: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .flash-success {

@@ -1284,10 +1284,11 @@ footer {
 }
 
 .flash-message {
-  flex: 1 1 auto;
-  min-width: 0;
-  overflow-wrap: anywhere;
-  word-break: break-word;
+    flex: 1 1 auto;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Variants (like Bootstrap: success, error, warning, info) */

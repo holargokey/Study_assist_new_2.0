@@ -88,7 +88,21 @@
             </svg>
         </button>
         <h2>Log in</h2>
-        <form id="emailLoginForm" class="sa-email-form">
+        <div class="flash-container" aria-live="polite">
+            {% if messages %}
+            {% for message in messages %}
+            {% if "auth-login" in message.tags %}
+            <div class="flash flash-{{ message.level_tag }}" data-message-tags="{{ message.tags }}">
+                <span class="flash-message">{{ message }}</span>
+                <button class="flash-close" onclick="this.parentElement.remove()" aria-label="Dismiss">×</button>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+        </div>
+        <form id="emailLoginForm" class="sa-email-form" method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.get_full_path }}">
             <input type="email" name="email" class="sa-email-input" placeholder="your.email@example.com" required>
             <input type="password" name="password" class="sa-email-input" placeholder="Password" required>
             <label class="sa-remember-me">
@@ -118,10 +132,25 @@
             </svg>
         </button>
         <h2>Create account</h2>
-        <form id="emailSignupForm" class="sa-email-form">
+        <div class="flash-container" aria-live="polite">
+            {% if messages %}
+            {% for message in messages %}
+            {% if "auth-signup" in message.tags %}
+            <div class="flash flash-{{ message.level_tag }}" data-message-tags="{{ message.tags }}">
+                <span class="flash-message">{{ message }}</span>
+                <button class="flash-close" onclick="this.parentElement.remove()" aria-label="Dismiss">×</button>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+        </div>
+        <form id="emailSignupForm" class="sa-email-form" method="post" action="{% url 'register' %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.get_full_path }}">
             <input type="text" name="name" class="sa-email-input" placeholder="Your name" required>
             <input type="email" name="email" class="sa-email-input" placeholder="your.email@example.com" required>
-            <input type="password" name="password" class="sa-email-input" placeholder="Password" required>
+            <input type="password" name="password" class="sa-email-input" placeholder="Password" required minlength="8"
+                autocomplete="new-password" title="Password must be at least 8 characters long.">
             <label class="sa-privacy-terms">
                 <input type="checkbox" name="privacy_terms" required>
                 <span>I agree to the <a href="{% url 'privacy_policy' %}" target="_blank">Privacy Policy</a> and <a

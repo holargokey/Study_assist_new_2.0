@@ -47,10 +47,12 @@
     <div class="flash-container">
         {% if messages %}
         {% for message in messages %}
-        <div class="flash flash-{{ message.tags }}">
+        {% if "auth-login" not in message.tags and "auth-signup" not in message.tags %}
+        <div class="flash flash-{{ message.level_tag }}" data-message-tags="{{ message.tags }}">
             <span class="flash-message">{{ message }}</span>
             <button class="flash-close" onclick="this.parentElement.remove()" aria-label="Dismiss">×</button>
         </div>
+        {% endif %}
         {% endfor %}
         {% endif %}
     </div>

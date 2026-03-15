@@ -16,6 +16,9 @@ from django.conf import settings
 from django.http import JsonResponse, HttpResponseNotAllowed
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 from django.views.decorators.http import require_GET, require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.core.cache import cache
@@ -38,6 +41,7 @@ from django.core.mail import send_mail
 log = logging.getLogger("timing")
 log.setLevel(logging.INFO)
 logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)s | %(message)s")
+User = get_user_model()
 
 
 #Helpers
@@ -154,6 +158,13 @@ def _on_rm_error(func, path, exc_info):
         logging.warning("Could not remove: %s", path)
 
 
+def _get_safe_redirect_url(request):
+    next_url = (request.POST.get("next") or request.GET.get("next") or "").strip()
+    if next_url.startswith("/"):
+        return next_url
+    return request.META.get("HTTP_REFERER") or "/"
+
+
 def _process_job(job_id: str, text: str, persist_dir: str, filename: str, start_pct: int = 10, end_pct: int = 100):
 
     try:
@@ -222,6 +233,76 @@ def _process_job(job_id: str, text: str, persist_dir: str, filename: str, start_
 @require_GET
 def home(request):
     return render(request, "home.html")
+
+
+@require_POST
+def register_user(request):
+    name = (request.POST.get("name") or "").strip()
+    email = (request.POST.get("email") or "").strip().lower()
+    password = request.POST.get("password") or ""
+    redirect_url = _get_safe_redirect_url(request)
+
+    if not name or not email or not password:
+        messages.error(request, "Enter name, email, and password.", extra_tags="auth-signup")
+        return redirect(redirect_url)
+
+    if User.objects.filter(email__iexact=email).exists():
+        messages.error(request, "Email already registered.", extra_tags="auth-signup")
+        return redirect(redirect_url)
+
+    first_name, _, last_name = name.partition(" ")
+    user = User(username=email, email=email, first_name=first_name, last_name=last_name.strip())
+
+    try:
+        validate_password(password, user=user)
+    except ValidationError as exc:
+        error_text = " ".join(exc.messages)
+        if "too short" in error_text.lower():
+            error_text = "Password must be at least 8 characters."
+        elif "too common" in error_text.lower():
+            error_text = "Choose a less common password."
+        elif "entirely numeric" in error_text.lower():
+            error_text = "Password cannot be only numbers."
+        messages.error(request, error_text, extra_tags="auth-signup")
+        return redirect(redirect_url)
+
+    user.set_password(password)
+    user.save()
+    messages.success(
+        request,
+        "Account created. Please sign in.",
+        extra_tags="auth-login auth-signup-success",
+    )
+    return redirect(redirect_url)
+
+
+@require_POST
+def login_user(request):
+    email = (request.POST.get("email") or "").strip().lower()
+    password = request.POST.get("password") or ""
+    remember = request.POST.get("remember")
+    redirect_url = _get_safe_redirect_url(request)
+
+    if not email or not password:
+        messages.error(request, "Enter email and password.", extra_tags="auth-login")
+        return redirect(redirect_url)
+
+    user = authenticate(request, username=email, password=password)
+    if user is None:
+        messages.error(request, "Invalid email or password.", extra_tags="auth-login")
+        return redirect(redirect_url)
+
+    login(request, user)
+    if not remember:
+        request.session.set_expiry(0)
+    return redirect(redirect_url)
+
+
+@require_POST
+def logout_user(request):
+    logout(request)
+    messages.success(request, "You have been signed out.")
+    return redirect(_get_safe_redirect_url(request))
 
 def _get_upload_page_context(request):
     job_id = request.session.get("job_id")

@@ -4,7 +4,7 @@
 
     // Main modal
     const mainLoginModal = document.getElementById('loginModal');
-    const desktopLoginBtns = document.querySelectorAll('.sa-desktop-login, .sa-signin-btn');
+    const desktopLoginBtns = document.querySelectorAll('a.sa-open-login, button.sa-open-login[type="button"]');
 
     function openMainLogin() {
         if (!mainLoginModal) return;
@@ -61,6 +61,15 @@
         openModal(emailLoginModal);
     }));
 
+    if (emailSignupModal?.querySelector('.flash-error')) {
+        openModal(emailSignupModal);
+    } else if (
+        emailLoginModal?.querySelector('.flash-error') ||
+        emailLoginModal?.querySelector('[data-message-tags*="auth-signup-success"]')
+    ) {
+        openModal(emailLoginModal);
+    }
+
     // Back / navigation
     document.querySelector('.sa-email-login-back')?.addEventListener('click', () => {
         // Hide login modal, restore main modal
@@ -102,25 +111,6 @@
             if (mainLoginModal && mainLoginModal.classList.contains('active')) closeMainLogin();
             else closeAllEmailModals();
         }
-    });
-
-    // Wire form stubs
-    document.getElementById('emailLoginForm')?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const form = e.target;
-        const data = new FormData(form);
-        console.log('Login submitted', Object.fromEntries(data.entries()));
-        alert('Login submitted (stub)');
-        closeAllEmailModals();
-    });
-
-    document.getElementById('emailSignupForm')?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const form = e.target;
-        const data = new FormData(form);
-        console.log('Signup submitted', Object.fromEntries(data.entries()));
-        alert('Signup submitted (stub)');
-        closeAllEmailModals();
     });
 
     // Close main login helper used above
