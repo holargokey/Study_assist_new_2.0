@@ -1,7 +1,8 @@
 # Ignore virtual environments
-venv/
+.venv/
 venv_*/
 .env
 __pycache__/
 *.pyc
 .DS_Store 
+venv_study_assist
