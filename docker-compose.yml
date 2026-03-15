@@ -1,19 +1,22 @@
+version: "3.9"
 services:
   app:
     build: .
-    container_name: flask_app
+    container_name: django_app_preprod
     restart: always
 
     environment:
       PORT: 8000
-      FLASK_ENV: production
+      DJANGO_SETTINGS_MODULE: yourproject.settings
     # OPENAI_API_KEY: ${OPENAI_API_KEY}
 
     env_file:
-      - /opt/studyassist/flask.env
+      - /opt/Study_assist_new_2.0/.env
+
+    command: python manage.py runserver 0.0.0.0:8000
 
     ports:
-      - "8000:8000"
+      - "8000:8080"
 
     volumes:
       # persistent storage
